@@ -11,6 +11,7 @@ function App() {
 
   const [cantidad, setCantidad] = useState(10000);
   const [meses, setMeses] = useState(6);
+  const [total, setTotal] = useState(0);
 
   const handleChange = (e) => {
     setCantidad(Number(e.target.value));
