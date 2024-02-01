@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from "./components/Header";
 import { Button } from './components/Button';
-import { formatearDinero } from './helpers/index.js';
+import { calcularTotalPagar, formatearDinero } from './helpers/index.js';
 
 const minCantidad = 0;
 const maxCantidad = 20000;
@@ -12,6 +12,18 @@ function App() {
   const [cantidad, setCantidad] = useState(10000);
   const [meses, setMeses] = useState(6);
   const [total, setTotal] = useState(0);
+  const [pago, setPago] = useState(0);
+
+  useEffect(() => {
+    const cantidadTotalPagar = calcularTotalPagar(cantidad, meses);
+    setTotal(cantidadTotalPagar);
+  }, [cantidad, meses])
+
+  useEffect(() => {
+    // Calcular el pago mensual
+    setPago(total / meses);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [total]);
 
   const handleChange = (e) => {
     setCantidad(Number(e.target.value));
@@ -78,8 +90,8 @@ function App() {
         </h2>
 
         <p className='text-xl text-gray-500 text-center font-bold'>{meses} Meses</p>
-        <p className='text-xl text-gray-500 text-center font-bold'>Total a pagar</p>
-        <p className='text-xl text-gray-500 text-center font-bold'>Mensuales</p>
+        <p className='text-xl text-gray-500 text-center font-bold'>{formatearDinero(total)} Total a pagar</p>
+        <p className='text-xl text-gray-500 text-center font-bold'>{formatearDinero(pago)} Mensuales</p>
       </div>
 
     </div>
